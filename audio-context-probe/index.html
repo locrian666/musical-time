@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Channel Probe — AudioContext 通道检测</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <div class="grain" aria-hidden="true"></div>
+
+    <main class="stage">
+      <header class="hero">
+        <p class="brand">Channel Probe</p>
+        <h1>检测本机 AudioContext 输出能力</h1>
+        <p class="lede">
+          读取 <code>destination.maxChannelCount</code>、<code>channelCount</code> 与
+          <code>sampleRate</code>，用于多声道 / Ambisonic 输出排查。
+        </p>
+        <div class="cta-row">
+          <button type="button" id="btn-start" class="btn primary">
+            启动 AudioContext
+          </button>
+          <button type="button" id="btn-refresh" class="btn ghost" disabled>
+            刷新读数
+          </button>
+        </div>
+        <p id="status" class="status" role="status">等待用户手势以创建 AudioContext…</p>
+      </header>
+
+      <section class="metrics" id="metrics" hidden>
+        <h2 class="section-title">核心读数</h2>
+        <dl class="metric-grid">
+          <div class="metric">
+            <dt>Max channels</dt>
+            <dd id="val-max">—</dd>
+            <span class="hint">destination.maxChannelCount</span>
+          </div>
+          <div class="metric">
+            <dt>Current channels</dt>
+            <dd id="val-current">—</dd>
+            <span class="hint">destination.channelCount</span>
+          </div>
+          <div class="metric">
+            <dt>Sample rate</dt>
+            <dd id="val-rate">—</dd>
+            <span class="hint">ctx.sampleRate (Hz)</span>
+          </div>
+        </dl>
+      </section>
+
+      <section class="panel" id="details" hidden>
+        <h2 class="section-title">上下文详情</h2>
+        <div class="detail-table" id="detail-table"></div>
+      </section>
+
+      <section class="panel" id="actions" hidden>
+        <h2 class="section-title">操作</h2>
+        <div class="action-row">
+          <label class="field">
+            <span>尝试设置 channelCount</span>
+            <div class="inline">
+              <input
+                type="number"
+                id="input-channels"
+                min="1"
+                max="32"
+                step="1"
+                value="2"
+              />
+              <button type="button" id="btn-set-channels" class="btn secondary">
+                应用
+              </button>
+            </div>
+          </label>
+          <div class="tone-block">
+            <button type="button" id="btn-tone" class="btn secondary">
+              播放测试音 (440 Hz)
+            </button>
+            <button type="button" id="btn-stop-tone" class="btn ghost" disabled>
+              停止
+            </button>
+          </div>
+        </div>
+        <p id="action-msg" class="status muted" role="status"></p>
+      </section>
+
+      <section class="panel" id="console-panel" hidden>
+        <h2 class="section-title">控制台输出</h2>
+        <pre id="log" class="log" aria-live="polite"></pre>
+      </section>
+    </main>
+
+    <script type="module" src="./app.js"></script>
+  </body>
+</html>

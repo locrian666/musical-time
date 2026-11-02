@@ -1,0 +1,27 @@
+{
+  "name": "ambisonic-studio",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc -b && vite build",
+    "preview": "vite preview",
+    "bridge": "npm run start --prefix bridge"
+  },
+  "dependencies": {
+    "@types/react": "latest",
+    "@types/react-dom": "latest",
+    "@vitejs/plugin-react": "latest",
+    "react": "latest",
+    "react-dom": "latest",
+    "typescript": "latest",
+    "vite": "latest",
+    "ws": "^8.21.1"
+  },
+  "description": "```powershell cd \"C:\\Users\\K\\Reaper-ai\\ambisonic-studio\" npm install npm run dev ```",
+  "main": "index.js",
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}
