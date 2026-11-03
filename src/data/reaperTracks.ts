@@ -14,7 +14,7 @@ export interface SectionTrackConfig {
 export const REAPER_SECTION_TRACKS: Record<BridgeSection, SectionTrackConfig> = {
   introduction: {
     tracks: ['Intro'],
-    durationSeconds: 128,
+    durationSeconds: 121.5,
   },
   baroque: {
     tracks: ['Baroque'],
@@ -22,18 +22,18 @@ export const REAPER_SECTION_TRACKS: Record<BridgeSection, SectionTrackConfig> = 
   },
   classical: {
     tracks: ['Classic'],
-    durationSeconds: 218,
+    durationSeconds: 216.8,
   },
   romantic: {
     tracks: ['Romantic'],
-    durationSeconds: 258,
+    durationSeconds: 256.7,
   },
   'modern-electronic': {
     tracks: ['Electric'],
-    durationSeconds: 330,
+    durationSeconds: 338.4,
   },
   'contemporary-ai': {
     tracks: ['AI'],
-    durationSeconds: 130,
+    durationSeconds: 116.6,
   },
 }
