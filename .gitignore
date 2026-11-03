@@ -5,3 +5,4 @@ dist/
 .env
 .env.local
 bridge/node_modules/
+.Ulysses-Group.plist
