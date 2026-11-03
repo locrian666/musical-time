@@ -3,11 +3,28 @@ import { REAPER_SECTION_TRACKS } from './reaperTracks'
 
 export type PlaybackMode = 'reaper' | 'ch28' | 'binaural'
 
+/**
+ * True for any production build (Cloudflare Pages / static hosting).
+ * Only the binaural files ship online: there is no local REAPER bridge and no
+ * 28-channel audio in the deployed bundle, so those modes are locked out.
+ */
+export const ONLINE_ONLY_BINAURAL = import.meta.env.PROD
+
 export const PLAYBACK_MODES: { id: PlaybackMode; label: string; hint: string }[] = [
   { id: 'reaper', label: 'REAPER', hint: 'Bridge to REAPER via OSC' },
   { id: 'ch28', label: '28CH', hint: '28-channel web playback + meters' },
   { id: 'binaural', label: 'BINAURAL', hint: 'Stereo binaural on this device' },
 ]
+
+/** Modes that cannot be selected in the deployed (online) build. */
+export function isModeLockedOnline(mode: PlaybackMode): boolean {
+  return ONLINE_ONLY_BINAURAL && mode === 'ch28'
+}
+
+/** Modes whose audio path only exists on the local machine. */
+export function isModeUnavailableOnline(mode: PlaybackMode): boolean {
+  return ONLINE_ONLY_BINAURAL && mode === 'reaper'
+}
 
 export const CHANNEL_METER_COUNT = 28
 

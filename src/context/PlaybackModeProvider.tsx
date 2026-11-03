@@ -7,7 +7,7 @@ import {
   useState,
   type ReactNode,
 } from 'react'
-import { CHANNEL_METER_COUNT, SPLIT_CH28_SECTION, stationCh28Urls, type PlaybackMode } from '../data/webAudio'
+import { CHANNEL_METER_COUNT, ONLINE_ONLY_BINAURAL, SPLIT_CH28_SECTION, isModeLockedOnline, stationCh28Urls, type PlaybackMode } from '../data/webAudio'
 import type { BridgeSection } from '../services/reaperBridge'
 import { getBookmark, saveBookmark } from '../services/sectionBookmarks'
 import { loadAllUploads, saveUpload, type UploadLibrary, type UploadMode } from '../services/uploadStore'
@@ -20,12 +20,15 @@ function readStoredMode(): PlaybackMode {
   try {
     const stored = sessionStorage.getItem(MODE_STORAGE_KEY)
     if (stored === 'reaper' || stored === 'ch28' || stored === 'binaural') {
+      if (isModeLockedOnline(stored)) return 'binaural'
+      // Online build starts on binaural: REAPER is not reachable from the web.
+      if (ONLINE_ONLY_BINAURAL && stored === 'reaper') return 'binaural'
       return stored
     }
   } catch {
     /* private mode */
   }
-  return 'reaper'
+  return ONLINE_ONLY_BINAURAL ? 'binaural' : 'reaper'
 }
 
 export interface PlaybackModeContextValue {
@@ -151,6 +154,11 @@ export function PlaybackModeProvider({ children }: { children: ReactNode }) {
   const setMode = useCallback(
     (next: PlaybackMode) => {
       if (next === mode) {
+        return
+      }
+
+      // Locked modes (28CH online) are not selectable.
+      if (isModeLockedOnline(next)) {
         return
       }
 

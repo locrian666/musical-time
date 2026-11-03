@@ -1,7 +1,7 @@
 import { forwardRef, useEffect, useImperativeHandle, useRef, useState } from 'react'
 import { usePlaybackMode } from '../context/PlaybackModeProvider'
 import { useBridgeSectionFinished, useReaperBridgeOptional } from '../context/ReaperBridgeProvider'
-import { CHANNEL_METER_COUNT, stationCh28Urls, stationFiles } from '../data/webAudio'
+import { CHANNEL_METER_COUNT, isModeUnavailableOnline, stationCh28Urls, stationFiles } from '../data/webAudio'
 import { REAPER_SECTION_TRACKS } from '../data/reaperTracks'
 import type { BridgeSection } from '../services/reaperBridge'
 import { formatTimecode, getBookmark, saveBookmark } from '../services/sectionBookmarks'
@@ -522,9 +522,11 @@ const AudioPlayer = forwardRef<AudioPlayerHandle, AudioPlayerProps>(function Aud
 
   const hint =
     mode === 'reaper'
-      ? bridge?.connected
-        ? 'Playback via REAPER bridge'
-        : 'REAPER bridge offline — start the local bridge'
+      ? isModeUnavailableOnline('reaper')
+        ? 'REAPER bridge is unavailable online — choose BINAURAL to listen'
+        : bridge?.connected
+          ? 'Playback via REAPER bridge'
+          : 'REAPER bridge offline — start the local bridge'
       : mode === 'ch28'
         ? '28-channel web playback'
         : 'Binaural stereo on this device'

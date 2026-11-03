@@ -282,6 +282,16 @@ button:focus-visible { outline: 1px solid #e6c77d; outline-offset: 5px; }
   animation: bridge-pulse 1.2s ease-in-out infinite;
 }
 .bridge-status--offline .bridge-status__label { opacity: .55; }
+/* Deployed build: bridge is unreachable, mode is selectable but inert */
+.bridge-status--unavailable {
+  border-color: rgba(255, 255, 255, .08);
+  color: rgba(235, 220, 190, .55);
+}
+.bridge-status--unavailable .bridge-status__dot {
+  background: rgba(160, 160, 160, .55);
+  box-shadow: 0 0 8px rgba(160, 160, 160, .25);
+}
+.bridge-status--unavailable .bridge-status__label { opacity: .8; }
 @keyframes bridge-pulse {
   50% { opacity: .35; }
 }
@@ -876,6 +886,14 @@ button:focus-visible { outline: 1px solid #e6c77d; outline-offset: 5px; }
 .playback-switch__btn--active {
   background: rgba(224, 196, 132, .16);
   color: #edd28b;
+}
+/* Locked online: 28CH has no audio in the deployed bundle */
+.playback-switch__btn--disabled,
+.playback-switch__btn:disabled {
+  opacity: .3;
+  color: rgba(239, 211, 155, .28);
+  cursor: not-allowed;
+  pointer-events: none;
 }
 .playback-switch__monitor {
   border: 1px solid rgba(232, 199, 125, .28);
